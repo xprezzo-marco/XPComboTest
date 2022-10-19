@@ -256,7 +256,7 @@ namespace XPComboTest
                 }
                 else if (len < 8)
                 {
-                    for (int i = 0; i < len; i++)
+                    for (int i = len; i < 8; i++)
                     {
                         cmd += '\0';
                     }
