@@ -178,6 +178,11 @@
             this.darkNumericUpDownDelay.Name = "darkNumericUpDownDelay";
             this.darkNumericUpDownDelay.Size = new System.Drawing.Size(51, 20);
             this.darkNumericUpDownDelay.TabIndex = 34;
+            this.darkNumericUpDownDelay.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // darkCheckBoxDtrEnable
             // 
