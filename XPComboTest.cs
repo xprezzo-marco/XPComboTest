@@ -50,7 +50,6 @@ namespace XPComboTest
 
 
             darkComboBoxSerialPort.Sorted = true;
-            darkComboBoxButton.Sorted = true;
 
 
 

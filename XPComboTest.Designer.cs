@@ -58,8 +58,6 @@
             this.darkButton2 = new DarkUI.Controls.DarkButton();
             this.darkButtonConnectToSerial = new DarkUI.Controls.DarkButton();
             this.darkGroupBoxSerial = new DarkUI.Controls.DarkGroupBox();
-            this.darkGroupBox8 = new DarkUI.Controls.DarkGroupBox();
-            this.darkComboBoxButton = new DarkUI.Controls.DarkComboBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.darkButtonDisconnect = new DarkUI.Controls.DarkButton();
             this.darkGroupBox3 = new DarkUI.Controls.DarkGroupBox();
@@ -77,7 +75,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.darkNumericUpDownDelay)).BeginInit();
             darkGroupBox1.SuspendLayout();
             this.darkGroupBoxSerial.SuspendLayout();
-            this.darkGroupBox8.SuspendLayout();
             this.darkGroupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -393,34 +390,13 @@
             // 
             this.darkGroupBoxSerial.BorderColor = System.Drawing.Color.Lime;
             this.darkGroupBoxSerial.Controls.Add(darkGroupBox1);
-            this.darkGroupBoxSerial.Controls.Add(this.darkGroupBox8);
             this.darkGroupBoxSerial.Controls.Add(darkGroupBox7);
             this.darkGroupBoxSerial.Location = new System.Drawing.Point(253, 12);
             this.darkGroupBoxSerial.Name = "darkGroupBoxSerial";
-            this.darkGroupBoxSerial.Size = new System.Drawing.Size(595, 82);
+            this.darkGroupBoxSerial.Size = new System.Drawing.Size(468, 82);
             this.darkGroupBoxSerial.TabIndex = 14;
             this.darkGroupBoxSerial.TabStop = false;
             this.darkGroupBoxSerial.Text = "Serial Connection";
-            // 
-            // darkGroupBox8
-            // 
-            this.darkGroupBox8.BorderColor = System.Drawing.Color.Blue;
-            this.darkGroupBox8.Controls.Add(this.darkComboBoxButton);
-            this.darkGroupBox8.Location = new System.Drawing.Point(462, 20);
-            this.darkGroupBox8.Name = "darkGroupBox8";
-            this.darkGroupBox8.Size = new System.Drawing.Size(120, 50);
-            this.darkGroupBox8.TabIndex = 15;
-            this.darkGroupBox8.TabStop = false;
-            this.darkGroupBox8.Text = "From Combo";
-            // 
-            // darkComboBoxButton
-            // 
-            this.darkComboBoxButton.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.darkComboBoxButton.FormattingEnabled = true;
-            this.darkComboBoxButton.Location = new System.Drawing.Point(9, 19);
-            this.darkComboBoxButton.Name = "darkComboBoxButton";
-            this.darkComboBoxButton.Size = new System.Drawing.Size(100, 21);
-            this.darkComboBoxButton.TabIndex = 3;
             // 
             // darkButtonDisconnect
             // 
@@ -439,7 +415,7 @@
             this.darkGroupBox3.Controls.Add(this.richTextBoxLog);
             this.darkGroupBox3.Location = new System.Drawing.Point(253, 100);
             this.darkGroupBox3.Name = "darkGroupBox3";
-            this.darkGroupBox3.Size = new System.Drawing.Size(595, 358);
+            this.darkGroupBox3.Size = new System.Drawing.Size(468, 358);
             this.darkGroupBox3.TabIndex = 15;
             this.darkGroupBox3.TabStop = false;
             this.darkGroupBox3.Text = "Logging";
@@ -452,13 +428,13 @@
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
             this.richTextBoxLog.ShowSelectionMargin = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(583, 333);
+            this.richTextBoxLog.Size = new System.Drawing.Size(440, 333);
             this.richTextBoxLog.TabIndex = 0;
             this.richTextBoxLog.Text = "";
             // 
             // darkButton3
             // 
-            this.darkButton3.Location = new System.Drawing.Point(770, 464);
+            this.darkButton3.Location = new System.Drawing.Point(646, 464);
             this.darkButton3.Name = "darkButton3";
             this.darkButton3.Padding = new System.Windows.Forms.Padding(5);
             this.darkButton3.Size = new System.Drawing.Size(75, 23);
@@ -469,7 +445,7 @@
             // darkButton1
             // 
             this.darkButton1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.darkButton1.Location = new System.Drawing.Point(688, 464);
+            this.darkButton1.Location = new System.Drawing.Point(559, 464);
             this.darkButton1.Name = "darkButton1";
             this.darkButton1.Padding = new System.Windows.Forms.Padding(5);
             this.darkButton1.Size = new System.Drawing.Size(75, 23);
@@ -482,7 +458,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(857, 511);
+            this.ClientSize = new System.Drawing.Size(725, 490);
             this.Controls.Add(this.darkButton1);
             this.Controls.Add(this.darkButton3);
             this.Controls.Add(this.darkGroupBox3);
@@ -491,6 +467,7 @@
             this.Controls.Add(darkGroupBox2);
             this.Controls.Add(this.darkGroupBoxSerial);
             this.Controls.Add(this.darkButtonConnectToSerial);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "XPComboTest";
@@ -503,7 +480,6 @@
             darkGroupBox1.ResumeLayout(false);
             darkGroupBox1.PerformLayout();
             this.darkGroupBoxSerial.ResumeLayout(false);
-            this.darkGroupBox8.ResumeLayout(false);
             this.darkGroupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -513,8 +489,6 @@
         private DarkUI.Controls.DarkComboBox darkComboBoxSerialPort;
         private DarkUI.Controls.DarkButton darkButtonConnectToSerial;
         private DarkUI.Controls.DarkGroupBox darkGroupBoxSerial;
-        private DarkUI.Controls.DarkGroupBox darkGroupBox8;
-        private DarkUI.Controls.DarkComboBox darkComboBoxButton;
         
         private DarkUI.Controls.DarkButton darkButton5;
         private System.IO.Ports.SerialPort serialPort1;
