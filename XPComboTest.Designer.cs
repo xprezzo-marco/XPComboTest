@@ -29,12 +29,9 @@
         private void InitializeComponent()
         {  
             this.components = new System.ComponentModel.Container();
-            DarkUI.Controls.DarkGroupBox darkGroupBox7;
             DarkUI.Controls.DarkGroupBox darkGroupBox2;
             DarkUI.Controls.DarkGroupBox darkGroupBoxSettings;
             DarkUI.Controls.DarkGroupBox darkGroupBox1;
-            this.darkComboBoxToCombo = new DarkUI.Controls.DarkComboBox();
-            this.darkButton5 = new DarkUI.Controls.DarkButton();
             this.darkComboBoxSerialPort = new DarkUI.Controls.DarkComboBox();
             this.darkLabel6 = new DarkUI.Controls.DarkLabel();
             this.darkNumericUpDownDelay = new DarkUI.Controls.DarkNumericUpDown();
@@ -58,6 +55,8 @@
             this.darkButton2 = new DarkUI.Controls.DarkButton();
             this.darkButtonConnectToSerial = new DarkUI.Controls.DarkButton();
             this.darkGroupBoxSerial = new DarkUI.Controls.DarkGroupBox();
+            this.darkButtonSetDisplay = new DarkUI.Controls.DarkButton();
+            this.darkButtonInitDisplay = new DarkUI.Controls.DarkButton();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.darkButtonDisconnect = new DarkUI.Controls.DarkButton();
             this.darkGroupBox3 = new DarkUI.Controls.DarkGroupBox();
@@ -65,51 +64,20 @@
             this.darkButton3 = new DarkUI.Controls.DarkButton();
             this.darkButton1 = new DarkUI.Controls.DarkButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            darkGroupBox7 = new DarkUI.Controls.DarkGroupBox();
+            this.darkGroupBox4 = new DarkUI.Controls.DarkGroupBox();
+            this.darkTextBoxVrInsightEquipment = new DarkUI.Controls.DarkTextBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             darkGroupBox2 = new DarkUI.Controls.DarkGroupBox();
             darkGroupBoxSettings = new DarkUI.Controls.DarkGroupBox();
             darkGroupBox1 = new DarkUI.Controls.DarkGroupBox();
-            darkGroupBox7.SuspendLayout();
             darkGroupBox2.SuspendLayout();
             darkGroupBoxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.darkNumericUpDownDelay)).BeginInit();
             darkGroupBox1.SuspendLayout();
             this.darkGroupBoxSerial.SuspendLayout();
             this.darkGroupBox3.SuspendLayout();
+            this.darkGroupBox4.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // darkGroupBox7
-            // 
-            darkGroupBox7.BorderColor = System.Drawing.Color.White;
-            darkGroupBox7.Controls.Add(this.darkComboBoxToCombo);
-            darkGroupBox7.Controls.Add(this.darkButton5);
-            darkGroupBox7.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            darkGroupBox7.Location = new System.Drawing.Point(6, 19);
-            darkGroupBox7.Name = "darkGroupBox7";
-            darkGroupBox7.Size = new System.Drawing.Size(218, 52);
-            darkGroupBox7.TabIndex = 16;
-            darkGroupBox7.TabStop = false;
-            darkGroupBox7.Text = "To Combo 1 predefined";
-            // 
-            // darkComboBoxToCombo
-            // 
-            this.darkComboBoxToCombo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.darkComboBoxToCombo.FormattingEnabled = true;
-            this.darkComboBoxToCombo.Location = new System.Drawing.Point(6, 18);
-            this.darkComboBoxToCombo.Name = "darkComboBoxToCombo";
-            this.darkComboBoxToCombo.Size = new System.Drawing.Size(100, 21);
-            this.darkComboBoxToCombo.TabIndex = 4;
-            // 
-            // darkButton5
-            // 
-            this.darkButton5.Location = new System.Drawing.Point(115, 19);
-            this.darkButton5.Name = "darkButton5";
-            this.darkButton5.Padding = new System.Windows.Forms.Padding(5);
-            this.darkButton5.Size = new System.Drawing.Size(75, 20);
-            this.darkButton5.TabIndex = 15;
-            this.darkButton5.Text = "Send";
-            this.darkButton5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.darkButton5.Click += new System.EventHandler(this.darkButton5_Click);
             // 
             // darkGroupBox2
             // 
@@ -118,7 +86,7 @@
             darkGroupBox2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             darkGroupBox2.Location = new System.Drawing.Point(2, 12);
             darkGroupBox2.Name = "darkGroupBox2";
-            darkGroupBox2.Size = new System.Drawing.Size(118, 52);
+            darkGroupBox2.Size = new System.Drawing.Size(78, 52);
             darkGroupBox2.TabIndex = 18;
             darkGroupBox2.TabStop = false;
             darkGroupBox2.Text = "Serial Port";
@@ -129,7 +97,7 @@
             this.darkComboBoxSerialPort.FormattingEnabled = true;
             this.darkComboBoxSerialPort.Location = new System.Drawing.Point(6, 20);
             this.darkComboBoxSerialPort.Name = "darkComboBoxSerialPort";
-            this.darkComboBoxSerialPort.Size = new System.Drawing.Size(100, 21);
+            this.darkComboBoxSerialPort.Size = new System.Drawing.Size(60, 21);
             this.darkComboBoxSerialPort.TabIndex = 2;
             this.darkComboBoxSerialPort.SelectedIndexChanged += new System.EventHandler(this.darkComboBoxSerialPort_SelectedIndexChanged);
             // 
@@ -221,6 +189,8 @@
             // darkCheckBoxCMDFUN
             // 
             this.darkCheckBoxCMDFUN.AutoSize = true;
+            this.darkCheckBoxCMDFUN.Checked = true;
+            this.darkCheckBoxCMDFUN.CheckState = System.Windows.Forms.CheckState.Checked;
             this.darkCheckBoxCMDFUN.Location = new System.Drawing.Point(74, 302);
             this.darkCheckBoxCMDFUN.Name = "darkCheckBoxCMDFUN";
             this.darkCheckBoxCMDFUN.Size = new System.Drawing.Size(98, 17);
@@ -243,6 +213,8 @@
             // darkCheckBoxCMDRST
             // 
             this.darkCheckBoxCMDRST.AutoSize = true;
+            this.darkCheckBoxCMDRST.Checked = true;
+            this.darkCheckBoxCMDRST.CheckState = System.Windows.Forms.CheckState.Checked;
             this.darkCheckBoxCMDRST.Location = new System.Drawing.Point(73, 256);
             this.darkCheckBoxCMDRST.Name = "darkCheckBoxCMDRST";
             this.darkCheckBoxCMDRST.Size = new System.Drawing.Size(98, 17);
@@ -351,7 +323,7 @@
             darkGroupBox1.Controls.Add(this.darkTextBoxFreeFormat);
             darkGroupBox1.Controls.Add(this.darkButton2);
             darkGroupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            darkGroupBox1.Location = new System.Drawing.Point(238, 19);
+            darkGroupBox1.Location = new System.Drawing.Point(6, 20);
             darkGroupBox1.Name = "darkGroupBox1";
             darkGroupBox1.Size = new System.Drawing.Size(218, 52);
             darkGroupBox1.TabIndex = 17;
@@ -383,7 +355,7 @@
             // darkButtonConnectToSerial
             // 
             this.darkButtonConnectToSerial.Enabled = false;
-            this.darkButtonConnectToSerial.Location = new System.Drawing.Point(126, 12);
+            this.darkButtonConnectToSerial.Location = new System.Drawing.Point(2, 70);
             this.darkButtonConnectToSerial.Name = "darkButtonConnectToSerial";
             this.darkButtonConnectToSerial.Padding = new System.Windows.Forms.Padding(5);
             this.darkButtonConnectToSerial.Size = new System.Drawing.Size(75, 20);
@@ -394,8 +366,9 @@
             // darkGroupBoxSerial
             // 
             this.darkGroupBoxSerial.BorderColor = System.Drawing.Color.Lime;
+            this.darkGroupBoxSerial.Controls.Add(this.darkButtonSetDisplay);
+            this.darkGroupBoxSerial.Controls.Add(this.darkButtonInitDisplay);
             this.darkGroupBoxSerial.Controls.Add(darkGroupBox1);
-            this.darkGroupBoxSerial.Controls.Add(darkGroupBox7);
             this.darkGroupBoxSerial.Location = new System.Drawing.Point(253, 12);
             this.darkGroupBoxSerial.Name = "darkGroupBoxSerial";
             this.darkGroupBoxSerial.Size = new System.Drawing.Size(468, 82);
@@ -403,10 +376,33 @@
             this.darkGroupBoxSerial.TabStop = false;
             this.darkGroupBoxSerial.Text = "Serial Connection";
             // 
+            // darkButtonSetDisplay
+            // 
+            this.darkButtonSetDisplay.Location = new System.Drawing.Point(368, 52);
+            this.darkButtonSetDisplay.Name = "darkButtonSetDisplay";
+            this.darkButtonSetDisplay.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButtonSetDisplay.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.darkButtonSetDisplay.Size = new System.Drawing.Size(94, 20);
+            this.darkButtonSetDisplay.TabIndex = 19;
+            this.darkButtonSetDisplay.Text = "Detect Display";
+            this.darkButtonSetDisplay.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.darkButtonSetDisplay.Click += new System.EventHandler(this.darkButtonSetDisplay_Click);
+            // 
+            // darkButtonInitDisplay
+            // 
+            this.darkButtonInitDisplay.Location = new System.Drawing.Point(368, 26);
+            this.darkButtonInitDisplay.Name = "darkButtonInitDisplay";
+            this.darkButtonInitDisplay.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButtonInitDisplay.Size = new System.Drawing.Size(92, 20);
+            this.darkButtonInitDisplay.TabIndex = 18;
+            this.darkButtonInitDisplay.Text = "Init Display";
+            this.darkButtonInitDisplay.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.darkButtonInitDisplay.Click += new System.EventHandler(this.darkButtonInitDisplay_Click);
+            // 
             // darkButtonDisconnect
             // 
             this.darkButtonDisconnect.Enabled = false;
-            this.darkButtonDisconnect.Location = new System.Drawing.Point(126, 44);
+            this.darkButtonDisconnect.Location = new System.Drawing.Point(83, 70);
             this.darkButtonDisconnect.Name = "darkButtonDisconnect";
             this.darkButtonDisconnect.Padding = new System.Windows.Forms.Padding(5);
             this.darkButtonDisconnect.Size = new System.Drawing.Size(75, 20);
@@ -433,7 +429,7 @@
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
             this.richTextBoxLog.ShowSelectionMargin = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(440, 333);
+            this.richTextBoxLog.Size = new System.Drawing.Size(454, 333);
             this.richTextBoxLog.TabIndex = 0;
             this.richTextBoxLog.Text = "";
             // 
@@ -458,12 +454,36 @@
             this.darkButton1.Text = "Clear Log";
             this.darkButton1.Click += new System.EventHandler(this.darkButton1_Click);
             // 
+            // darkGroupBox4
+            // 
+            this.darkGroupBox4.BorderColor = System.Drawing.Color.DodgerBlue;
+            this.darkGroupBox4.Controls.Add(this.darkTextBoxVrInsightEquipment);
+            this.darkGroupBox4.Location = new System.Drawing.Point(86, 12);
+            this.darkGroupBox4.Name = "darkGroupBox4";
+            this.darkGroupBox4.Size = new System.Drawing.Size(161, 41);
+            this.darkGroupBox4.TabIndex = 16;
+            this.darkGroupBox4.TabStop = false;
+            this.darkGroupBox4.Text = "VrInsight Equipment";
+            // 
+            // darkTextBoxVrInsightEquipment
+            // 
+            this.darkTextBoxVrInsightEquipment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.darkTextBoxVrInsightEquipment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkTextBoxVrInsightEquipment.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkTextBoxVrInsightEquipment.Location = new System.Drawing.Point(6, 15);
+            this.darkTextBoxVrInsightEquipment.MaxLength = 8;
+            this.darkTextBoxVrInsightEquipment.Name = "darkTextBoxVrInsightEquipment";
+            this.darkTextBoxVrInsightEquipment.ReadOnly = true;
+            this.darkTextBoxVrInsightEquipment.Size = new System.Drawing.Size(149, 20);
+            this.darkTextBoxVrInsightEquipment.TabIndex = 20;
+            // 
             // XPComboTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(725, 490);
+            this.Controls.Add(this.darkGroupBox4);
             this.Controls.Add(this.darkButton1);
             this.Controls.Add(this.darkButton3);
             this.Controls.Add(this.darkGroupBox3);
@@ -477,7 +497,6 @@
             this.MinimizeBox = false;
             this.Name = "XPComboTest";
             this.Text = "XPComboTest by xprezzo-marco";
-            darkGroupBox7.ResumeLayout(false);
             darkGroupBox2.ResumeLayout(false);
             darkGroupBoxSettings.ResumeLayout(false);
             darkGroupBoxSettings.PerformLayout();
@@ -486,6 +505,8 @@
             darkGroupBox1.PerformLayout();
             this.darkGroupBoxSerial.ResumeLayout(false);
             this.darkGroupBox3.ResumeLayout(false);
+            this.darkGroupBox4.ResumeLayout(false);
+            this.darkGroupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -494,8 +515,6 @@
         private DarkUI.Controls.DarkComboBox darkComboBoxSerialPort;
         private DarkUI.Controls.DarkButton darkButtonConnectToSerial;
         private DarkUI.Controls.DarkGroupBox darkGroupBoxSerial;
-        
-        private DarkUI.Controls.DarkButton darkButton5;
         private System.IO.Ports.SerialPort serialPort1;
         private DarkUI.Controls.DarkComboBox darkComboBoxHandShake;
         private DarkUI.Controls.DarkComboBox darkComboBoxParity;
@@ -518,13 +537,17 @@
         private DarkUI.Controls.DarkCheckBox darkCheckBoxDtrEnable;
         private DarkUI.Controls.DarkLabel darkLabel6;
         private DarkUI.Controls.DarkNumericUpDown darkNumericUpDownDelay;
-        private DarkUI.Controls.DarkComboBox darkComboBoxToCombo;
         private DarkUI.Controls.DarkTextBox darkTextBoxFreeFormat;
         private DarkUI.Controls.DarkButton darkButton2;
         private DarkUI.Controls.DarkButton darkButton3;
         private System.Windows.Forms.RichTextBox richTextBoxLog;
         private DarkUI.Controls.DarkButton darkButton1;
         private System.Windows.Forms.Timer timer1;
+        private DarkUI.Controls.DarkButton darkButtonInitDisplay;
+        private DarkUI.Controls.DarkButton darkButtonSetDisplay;
+        private DarkUI.Controls.DarkGroupBox darkGroupBox4;
+        private DarkUI.Controls.DarkTextBox darkTextBoxVrInsightEquipment;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

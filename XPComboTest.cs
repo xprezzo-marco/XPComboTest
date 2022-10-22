@@ -37,11 +37,13 @@ namespace XPComboTest
         string commPort;
         ConcurrentQueue<LogMessage> _logQueue = new ConcurrentQueue<LogMessage>();
 
-
+        EVrInsightEquipment VrInsightEquipment = EVrInsightEquipment.other;
         public XPComboTest()
         {
             InitializeComponent();
             InitializeTimer();
+
+            this.Text = "XPComboTest version 1.0 by xprezzo-marco";
 
 
             darkGroupBoxSerial.Enabled = false;
@@ -91,35 +93,14 @@ namespace XPComboTest
             darkComboBoxStopBits.SelectedItem = StopBits.One;
 
 
-            darkComboBoxToCombo.Items.Add("DSP0ZIBO");
-            darkComboBoxToCombo.Items.Add("DSP1TEST");
-            darkComboBoxToCombo.Items.Add("DSP0XPRE");
-            darkComboBoxToCombo.Items.Add("DSP1ZO  ");
 
-            darkComboBoxToCombo.Items.Add("SPD200.0");
-            darkComboBoxToCombo.Items.Add("SPD300.0");
-            darkComboBoxToCombo.Items.Add("SPD400.0");
-
-            darkComboBoxToCombo.Items.Add("HDG000.0");
-            darkComboBoxToCombo.Items.Add("HDG090.0");
-            darkComboBoxToCombo.Items.Add("HDG180.0");
-
-            darkComboBoxToCombo.Items.Add("ALT200.0");
-            darkComboBoxToCombo.Items.Add("ALT300.0");
-            darkComboBoxToCombo.Items.Add("ALT400.0");
-
-            darkComboBoxToCombo.Items.Add("CMDRST\0\0");
-            darkComboBoxToCombo.Items.Add("CMDCON\0\0");
-            darkComboBoxToCombo.Items.Add("CMDFUN\0\0");
-            darkComboBoxToCombo.Items.Add("CMDVER\0\0");
-
-            darkComboBoxToCombo.SelectedItem = "DSP0ZIBO";
         }
-       
+         
+                  
 
 
 
-        private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
+private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
         {
             try
             {
@@ -287,6 +268,25 @@ namespace XPComboTest
             {
                 var serialData = SerialPort.ReadExisting();
 
+                if(serialData == null)
+                {
+                    return;
+                }
+
+               
+                if (serialData.StartsWith("CMDMCP2B"))
+                {
+                    VrInsightEquipment = EVrInsightEquipment.combo2;
+                    InitDisplays("    ");
+
+                }
+
+                if (serialData.StartsWith("CMDFMER"))
+                {
+                    VrInsightEquipment = EVrInsightEquipment.combo1;
+                    InitDisplays("    ");
+                }
+
                 Log(ELogger.serial_in, "<------------------------- " +serialData);
             }
 
@@ -300,9 +300,80 @@ namespace XPComboTest
 
         }
 
+        void InitDisplays(string pattern)
+        {
+            Log(ELogger.info, "InitDisplays: pattern [" + pattern +"]");
+
+            switch (VrInsightEquipment)
+            {
+                case EVrInsightEquipment.combo1:
+                    SerialPort.Write("DSP0" + pattern); Delay();
+                    SerialPort.Write("DSP1" + pattern); Delay();
+                    break;
+
+                case EVrInsightEquipment.combo2:
+                    SerialPort.Write("DSP0" + pattern); Delay();
+                    SerialPort.Write("DSP1" + pattern); Delay();
+                    SerialPort.Write("DSP2" + pattern); Delay();
+                    SerialPort.Write("DSP3" + pattern); Delay();
+                    SerialPort.Write("DSP4" + pattern); Delay();
+                    SerialPort.Write("DSP5" + pattern); Delay();
+                    SerialPort.Write("DSP6" + pattern); Delay();
+                    SerialPort.Write("DSP7" + pattern); Delay();
+                    SerialPort.Write("DSP8" + pattern); Delay();
+                    SerialPort.Write("DSP9" + pattern); Delay();
+                    SerialPort.Write("DSPA" + pattern); Delay();
+                    SerialPort.Write("DSPB" + pattern); Delay();
+                    SerialPort.Write("DSPC" + pattern); Delay();
+                    SerialPort.Write("DSPD" + pattern); Delay();
+                    SerialPort.Write("DSPE" + pattern); Delay();
+                    SerialPort.Write("DSPF" + pattern); Delay();
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+
+        void DetectDisplays()
+        {
+            Log(ELogger.info, "DetectDisplays:");
+
+            switch (VrInsightEquipment)
+            {
+                case EVrInsightEquipment.combo1:
+                    SerialPort.Write("DSP0" + "0000"); Delay();
+                    SerialPort.Write("DSP1" + "0001"); Delay();
+                    break;
+
+                case EVrInsightEquipment.combo2:
+                    SerialPort.Write("DSP0" + "0000"); Delay();
+                    SerialPort.Write("DSP1" + "0001"); Delay();
+                    SerialPort.Write("DSP2" + "0002"); Delay();
+                    SerialPort.Write("DSP3" + "0003"); Delay();
+                    SerialPort.Write("DSP4" + "0004"); Delay();
+                    SerialPort.Write("DSP5" + "0005"); Delay();
+                    SerialPort.Write("DSP6" + "0006"); Delay();
+                    SerialPort.Write("DSP7" + "0007"); Delay();
+                    SerialPort.Write("DSP8" + "0008"); Delay();
+                    SerialPort.Write("DSP9" + "0009"); Delay();
+                    SerialPort.Write("DSPA" + "0010"); Delay();
+                    SerialPort.Write("DSPB" + "0011"); Delay();
+                    SerialPort.Write("DSPC" + "0012"); Delay();
+                    SerialPort.Write("DSPD" + "0013"); Delay();
+                    SerialPort.Write("DSPE" + "0014"); Delay();
+                    SerialPort.Write("DSPF" + "0015"); Delay();
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
 
 
-       // private void si_DataReceived(string data) { Log(data); }
+        // private void si_DataReceived(string data) { Log(data); }
 
         private void darkComboBoxSerialPort_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -315,8 +386,11 @@ namespace XPComboTest
         private void darkButtonDisconnect_Click(object sender, EventArgs e)
         {
 
-            if(SerialPort == null) { return; }
-            SerialPort.Close();
+            if(SerialPort != null) { SerialPort.Close();  }
+
+            VrInsightEquipment = EVrInsightEquipment.unknown;
+            darkTextBoxVrInsightEquipment.Text = "";
+
             Log(ELogger.warn,  "COMM: selected " + commPort);
 
             darkButtonConnectToSerial.Enabled = true;
@@ -325,10 +399,7 @@ namespace XPComboTest
             
         }
 
-        private void darkButton5_Click(object sender, EventArgs e)
-        {
-            WriteToSerial((string)darkComboBoxToCombo.SelectedItem);
-        }
+      
 
         private void darkButton2_Click(object sender, EventArgs e)
         {
@@ -375,7 +446,11 @@ namespace XPComboTest
             // Hook up timer's tick event handler.  
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 
-          
+            // Run this procedure in an appropriate event.  
+            timer2.Interval = 20;
+            timer2.Enabled = true;
+            // Hook up timer's tick event handler.  
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
         }
 
         private void timer1_Tick(object sender, System.EventArgs e)
@@ -404,11 +479,26 @@ namespace XPComboTest
             }
         }
 
+        private void timer2_Tick(object sender, System.EventArgs e)
+        {
+            darkTextBoxVrInsightEquipment.Text = VrInsightEquipment.ToString();
+        }
         void Log(ELogger logger, string s)
         {
 
             LogMessage logMessage = new LogMessage(logger, s);
             this._logQueue.Enqueue(logMessage);
+        }
+
+        private void darkButtonInitDisplay_Click(object sender, EventArgs e)
+        {
+            InitDisplays("    ");
+
+        }
+
+        private void darkButtonSetDisplay_Click(object sender, EventArgs e)
+        {
+            DetectDisplays();
         }
     }
 }
