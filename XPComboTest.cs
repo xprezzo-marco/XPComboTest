@@ -37,6 +37,8 @@ namespace XPComboTest
         string commPort;
         ConcurrentQueue<LogMessage> _logQueue = new ConcurrentQueue<LogMessage>();
         bool InitPhase = false;
+        int SignallingStep = -1;
+        string FirmwareVersion = "";
 
         EVrInsightEquipment VrInsightEquipment = EVrInsightEquipment.other;
         public XPComboTest()
@@ -149,33 +151,49 @@ namespace XPComboTest
 
                 SerialPort.Open();
 
+                if (darkCheckBoxAutomaticInit.Checked)
+                {
+                    Log(ELogger.info, "PERFORMING AUTO INIT");
 
+                    SignallingStep = 1;
+                    WriteToSerial("CMDRST");
+                    Delay();
+                    WriteToSerial("CMDCON");
+                    Delay();
+
+                    return;
+                }
 
                 if (darkCheckBoxCMDRST.Checked)
                 {
-                    WriteToSerial("CMDRST\0\0");
+                    WriteToSerial("CMDRST");
                     Delay();
                 }
                 if (darkCheckBoxCMDCON.Checked)
                 {
-                    WriteToSerial("CMDCON\0\0");
+                    WriteToSerial("CMDCON");
                     Delay();
 
                 }
                 if (darkCheckBoxCMDFUN.Checked)
                 {
-                    WriteToSerial("CMDFUN\0\0");
+                    WriteToSerial("CMDFUN");
                     Delay();
 
                 }
 
                 if (darkCheckBoxCMDVER.Checked)
                 {
-                    WriteToSerial("CMDVER\0\0");
+                    WriteToSerial("CMDVER");
                     Delay();
 
                 }
+                if (darkCheckBoxCMDFR.Checked)
+                {
+                    WriteToSerial("CMDFR");
+                    Delay();
 
+                }
 
 
             }
@@ -267,39 +285,26 @@ namespace XPComboTest
 
             try
             {
-                var serialData = SerialPort.ReadExisting();
+                byte[] data = new byte[8];
+                int  nr = SerialPort.Read(data, 0, 8);
+                Log(ELogger.info, "read " + nr + " bytes ");
+
+                var serialData = System.Text.Encoding.Default.GetString(data); 
+                //var serialData = SerialPort.ReadExisting();
 
                 if (serialData == null)
                 {
                     return;
                 }
 
-                Log(ELogger.serial_in, "<------------------------- " + serialData);
+                Log(ELogger.serial_in, "<------------------------- [" + serialData +"]");
 
-
-                if (serialData.StartsWith("CMDCON"))
+                if (SignallingStep > 0)
                 {
-                    InitPhase = true;
+                    SignallingStep = HandleSignalling(SignallingStep, serialData);
                 }
-                else if (InitPhase)
-                {
 
-                    if (serialData.StartsWith("CMDMCP2B"))
-                    {
-                        VrInsightEquipment = EVrInsightEquipment.combo2;
-                        InitDisplays("    ");
-
-                    }
-                    else if (serialData.StartsWith("CMDFMER"))
-                    {
-                        VrInsightEquipment = EVrInsightEquipment.combo1;
-                    }
-                    else if (serialData.StartsWith("APLMAST"))
-                    {
-
-                        InitDisplays("    ");
-                    }
-                }
+               
            
 
                 }
@@ -310,11 +315,85 @@ namespace XPComboTest
             }
 
 
+        }
 
+        /*
+         *   297 VRI com3 <--- CMDCON [from FSUIPC init]
+         *   328 VRI com3 <--- CMDFUN [from FSUIPC init]
+         *   656 VRI com3 <--- CMDVER [from FSUIPC init]
+         *   656 VRI MCP2A ("MCP2 Airbus") detected on port com3
+         *   672 VRI com3 <--- CMDFR [from FSUIPC init]
+         */
+
+        int HandleSignalling(int signallingStep, string serialData)
+        {
+
+            switch (signallingStep)
+            {
+                case 1:
+                    Log(ELogger.info, "AUTOINIT: Wait for CMDCON");
+
+                    if (serialData.StartsWith("CMDCON")) {
+                        signallingStep++;
+                        WriteToSerial("CMDFUN");
+
+                    };
+                    return signallingStep;
+
+                case 2: // CMDFUN
+
+                    Log(ELogger.info, "AUTOINIT: Wait for CMDFUN result");
+
+                    if (CheckForVrInsightEquipment(serialData))
+                    {
+                        signallingStep++;
+                        WriteToSerial("CMDFR");
+
+                        Delay();
+                        Delay();
+
+                        InitDisplays("    ");
+
+                        return -1;
+
+                    };
+                    return signallingStep;
+
+              
+                default:
+                    return -1;
+            }
+          
 
         }
 
-        void InitDisplays(string pattern)
+        bool CheckForVrInsightEquipment(string serialData)
+        {
+
+            if (serialData.StartsWith("CMDMCP2A"))
+            {
+                VrInsightEquipment = EVrInsightEquipment.combo2airbus;
+                return true;
+            }
+
+            if (serialData.StartsWith("CMDMCP2B"))
+            {
+                VrInsightEquipment = EVrInsightEquipment.combo2boeing;
+                return true;
+            }
+
+
+            if (serialData.StartsWith("CMDFMER"))
+            {
+                VrInsightEquipment = EVrInsightEquipment.combo1;
+                return true;
+
+            }
+
+            return false;
+        }
+
+            void InitDisplays(string pattern)
         {
             InitPhase = false;
 
@@ -327,7 +406,8 @@ namespace XPComboTest
                     WriteToSerial("DSP1" + pattern); Delay();
                     break;
 
-                case EVrInsightEquipment.combo2:
+                case EVrInsightEquipment.combo2airbus:
+                case EVrInsightEquipment.combo2boeing:
 
                     /* enjxp
                     * The first line (upper line) goes from DSP0 to DSP7
@@ -376,8 +456,9 @@ namespace XPComboTest
                     WriteToSerial("DSP1" + "0001"); Delay();
                     break;
 
-                case EVrInsightEquipment.combo2:
 
+                case EVrInsightEquipment.combo2airbus:
+                case EVrInsightEquipment.combo2boeing:
                     /* enjxp
                      * The first line (upper line) goes from DSP0 to DSP7
                      * The second line (lower line) goes from DSP8 to DSPF
@@ -430,6 +511,8 @@ namespace XPComboTest
         {
 
             if (SerialPort != null) { SerialPort.Close(); }
+            
+            SignallingStep = -1;
 
             VrInsightEquipment = EVrInsightEquipment.unknown;
             darkTextBoxVrInsightEquipment.Text = "";
@@ -524,7 +607,7 @@ namespace XPComboTest
 
         private void timer2_Tick(object sender, System.EventArgs e)
         {
-            darkTextBoxVrInsightEquipment.Text = VrInsightEquipment.ToString();
+            darkTextBoxVrInsightEquipment.Text = VrInsightEquipment.ToString() + " " + FirmwareVersion;
         }
         void Log(ELogger logger, string s)
         {

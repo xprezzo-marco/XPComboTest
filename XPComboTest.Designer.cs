@@ -67,6 +67,8 @@
             this.darkGroupBox4 = new DarkUI.Controls.DarkGroupBox();
             this.darkTextBoxVrInsightEquipment = new DarkUI.Controls.DarkTextBox();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.darkCheckBoxCMDFR = new DarkUI.Controls.DarkCheckBox();
+            this.darkCheckBoxAutomaticInit = new DarkUI.Controls.DarkCheckBox();
             darkGroupBox2 = new DarkUI.Controls.DarkGroupBox();
             darkGroupBoxSettings = new DarkUI.Controls.DarkGroupBox();
             darkGroupBox1 = new DarkUI.Controls.DarkGroupBox();
@@ -104,6 +106,8 @@
             // darkGroupBoxSettings
             // 
             darkGroupBoxSettings.BorderColor = System.Drawing.Color.Yellow;
+            darkGroupBoxSettings.Controls.Add(this.darkCheckBoxAutomaticInit);
+            darkGroupBoxSettings.Controls.Add(this.darkCheckBoxCMDFR);
             darkGroupBoxSettings.Controls.Add(this.darkLabel6);
             darkGroupBoxSettings.Controls.Add(this.darkNumericUpDownDelay);
             darkGroupBoxSettings.Controls.Add(this.darkCheckBoxDtrEnable);
@@ -134,7 +138,7 @@
             // 
             this.darkLabel6.AutoSize = true;
             this.darkLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkLabel6.Location = new System.Drawing.Point(12, 223);
+            this.darkLabel6.Location = new System.Drawing.Point(12, 211);
             this.darkLabel6.Name = "darkLabel6";
             this.darkLabel6.Size = new System.Drawing.Size(32, 13);
             this.darkLabel6.TabIndex = 35;
@@ -142,7 +146,7 @@
             // 
             // darkNumericUpDownDelay
             // 
-            this.darkNumericUpDownDelay.Location = new System.Drawing.Point(75, 223);
+            this.darkNumericUpDownDelay.Location = new System.Drawing.Point(74, 204);
             this.darkNumericUpDownDelay.Name = "darkNumericUpDownDelay";
             this.darkNumericUpDownDelay.Size = new System.Drawing.Size(51, 20);
             this.darkNumericUpDownDelay.TabIndex = 34;
@@ -179,7 +183,7 @@
             // darkCheckBoxCMDVER
             // 
             this.darkCheckBoxCMDVER.AutoSize = true;
-            this.darkCheckBoxCMDVER.Location = new System.Drawing.Point(74, 325);
+            this.darkCheckBoxCMDVER.Location = new System.Drawing.Point(8, 299);
             this.darkCheckBoxCMDVER.Name = "darkCheckBoxCMDVER";
             this.darkCheckBoxCMDVER.Size = new System.Drawing.Size(98, 17);
             this.darkCheckBoxCMDVER.TabIndex = 31;
@@ -191,7 +195,7 @@
             this.darkCheckBoxCMDFUN.AutoSize = true;
             this.darkCheckBoxCMDFUN.Checked = true;
             this.darkCheckBoxCMDFUN.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.darkCheckBoxCMDFUN.Location = new System.Drawing.Point(74, 302);
+            this.darkCheckBoxCMDFUN.Location = new System.Drawing.Point(8, 276);
             this.darkCheckBoxCMDFUN.Name = "darkCheckBoxCMDFUN";
             this.darkCheckBoxCMDFUN.Size = new System.Drawing.Size(98, 17);
             this.darkCheckBoxCMDFUN.TabIndex = 30;
@@ -203,7 +207,7 @@
             this.darkCheckBoxCMDCON.AutoSize = true;
             this.darkCheckBoxCMDCON.Checked = true;
             this.darkCheckBoxCMDCON.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.darkCheckBoxCMDCON.Location = new System.Drawing.Point(73, 279);
+            this.darkCheckBoxCMDCON.Location = new System.Drawing.Point(9, 252);
             this.darkCheckBoxCMDCON.Name = "darkCheckBoxCMDCON";
             this.darkCheckBoxCMDCON.Size = new System.Drawing.Size(99, 17);
             this.darkCheckBoxCMDCON.TabIndex = 29;
@@ -215,7 +219,7 @@
             this.darkCheckBoxCMDRST.AutoSize = true;
             this.darkCheckBoxCMDRST.Checked = true;
             this.darkCheckBoxCMDRST.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.darkCheckBoxCMDRST.Location = new System.Drawing.Point(73, 256);
+            this.darkCheckBoxCMDRST.Location = new System.Drawing.Point(10, 230);
             this.darkCheckBoxCMDRST.Name = "darkCheckBoxCMDRST";
             this.darkCheckBoxCMDRST.Size = new System.Drawing.Size(98, 17);
             this.darkCheckBoxCMDRST.TabIndex = 28;
@@ -477,6 +481,24 @@
             this.darkTextBoxVrInsightEquipment.Size = new System.Drawing.Size(149, 20);
             this.darkTextBoxVrInsightEquipment.TabIndex = 20;
             // 
+            // darkCheckBoxCMDFR
+            // 
+            this.darkCheckBoxCMDFR.AutoSize = true;
+            this.darkCheckBoxCMDFR.Location = new System.Drawing.Point(8, 322);
+            this.darkCheckBoxCMDFR.Name = "darkCheckBoxCMDFR";
+            this.darkCheckBoxCMDFR.Size = new System.Drawing.Size(90, 17);
+            this.darkCheckBoxCMDFR.TabIndex = 36;
+            this.darkCheckBoxCMDFR.Text = "send CMDFR";
+            // 
+            // darkCheckBoxAutomaticInit
+            // 
+            this.darkCheckBoxAutomaticInit.AutoSize = true;
+            this.darkCheckBoxAutomaticInit.Location = new System.Drawing.Point(131, 252);
+            this.darkCheckBoxAutomaticInit.Name = "darkCheckBoxAutomaticInit";
+            this.darkCheckBoxAutomaticInit.Size = new System.Drawing.Size(88, 17);
+            this.darkCheckBoxAutomaticInit.TabIndex = 37;
+            this.darkCheckBoxAutomaticInit.Text = "automatic init";
+            // 
             // XPComboTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -548,6 +570,8 @@
         private DarkUI.Controls.DarkGroupBox darkGroupBox4;
         private DarkUI.Controls.DarkTextBox darkTextBoxVrInsightEquipment;
         private System.Windows.Forms.Timer timer2;
+        private DarkUI.Controls.DarkCheckBox darkCheckBoxCMDFR;
+        private DarkUI.Controls.DarkCheckBox darkCheckBoxAutomaticInit;
     }
 }
 

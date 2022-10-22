@@ -23,10 +23,11 @@ namespace XPComboTest
     {
         unknown = 0,
         combo1 = 1,
-        combo2 = 2,
-        cdu1 = 3,
-        cdu2 = 4,
-        other = 5
+        combo2airbus = 2,
+        combo2boeing = 3,
+        cdu1 = 4,
+        cdu2 = 5,
+        other = 6
 
     }
 }
