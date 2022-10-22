@@ -36,6 +36,7 @@ namespace XPComboTest
         SerialPort SerialPort;
         string commPort;
         ConcurrentQueue<LogMessage> _logQueue = new ConcurrentQueue<LogMessage>();
+        bool InitPhase = false;
 
         EVrInsightEquipment VrInsightEquipment = EVrInsightEquipment.other;
         public XPComboTest()
@@ -95,12 +96,12 @@ namespace XPComboTest
 
 
         }
-         
-                  
 
 
 
-private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
+
+
+        private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
         {
             try
             {
@@ -134,13 +135,13 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
 
                 SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialDataReceived);
 
-                Log(ELogger.info,  "COMM: opening port " + commPort);
-                Log(ELogger.info,  "COMM: BaudRate " + SerialPort.BaudRate);
-                Log(ELogger.info,  "COMM: Parity " + SerialPort.Parity);
-                Log(ELogger.info,  "COMM: DataBits " + SerialPort.DataBits);
-                Log(ELogger.info,  "COMM: StopBits " + SerialPort.StopBits);
-                Log(ELogger.info,  "COMM: RtsEnable " + SerialPort.RtsEnable);
-                Log(ELogger.info,  "COMM: DtrEnable " + SerialPort.DtrEnable);
+                Log(ELogger.info, "COMM: opening port " + commPort);
+                Log(ELogger.info, "COMM: BaudRate " + SerialPort.BaudRate);
+                Log(ELogger.info, "COMM: Parity " + SerialPort.Parity);
+                Log(ELogger.info, "COMM: DataBits " + SerialPort.DataBits);
+                Log(ELogger.info, "COMM: StopBits " + SerialPort.StopBits);
+                Log(ELogger.info, "COMM: RtsEnable " + SerialPort.RtsEnable);
+                Log(ELogger.info, "COMM: DtrEnable " + SerialPort.DtrEnable);
 
                 // Set the read/write timeouts
                 //SerialPort.ReadTimeout = 500;
@@ -180,7 +181,7 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
             }
             catch (Exception ex)
             {
-                Log(ELogger.error,  "Exception " + ex.Message);
+                Log(ELogger.error, "Exception " + ex.Message);
             }
 
 
@@ -203,24 +204,24 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
         }
 
 
-       
+
 
         void WriteToSerial(string command)
         {
-          
+
 
             try
             {
                 if (SerialPort == null)
                 {
-                    Log(ELogger.error,  "serial port == null.");
+                    Log(ELogger.error, "serial port == null.");
                     return;
 
                 }
 
                 if (!SerialPort.IsOpen)
                 {
-                    Log(ELogger.error,  "serial port is not open yet ");
+                    Log(ELogger.error, "serial port is not open yet ");
                     return;
 
                 }
@@ -232,7 +233,7 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
                 if (len > 8)
                 {
                     cmd = command.Substring(0, 8);
-                    Log(ELogger.warn,  "command ["+command + "] maximum length is 8. Abbreviated to [" + cmd + "]");
+                    Log(ELogger.warn, "command [" + command + "] maximum length is 8. Abbreviated to [" + cmd + "]");
 
                 }
                 else if (len < 8)
@@ -241,18 +242,18 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
                     {
                         cmd += '\0';
                     }
-                    Log(ELogger.warn,  "command [" + command + "] length < 8. Length adapted to [" + cmd + "]");
+                    Log(ELogger.warn, "command [" + command + "] length < 8. Length adapted to [" + cmd + "]");
 
                 }
 
-             
+
 
                 SerialPort.Write(cmd);
-                Log(ELogger.serial_out,cmd + " ----------------->");
+                Log(ELogger.serial_out, cmd + " ----------------->");
             }
             catch (Exception ex)
             {
-                Log(ELogger.error,  "Exception " + ex.Message);
+                Log(ELogger.error, "Exception " + ex.Message);
             }
         }
 
@@ -268,27 +269,40 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
             {
                 var serialData = SerialPort.ReadExisting();
 
-                if(serialData == null)
+                if (serialData == null)
                 {
                     return;
                 }
 
-               
-                if (serialData.StartsWith("CMDMCP2B"))
+                Log(ELogger.serial_in, "<------------------------- " + serialData);
+
+
+                if (serialData.StartsWith("CMDCON"))
                 {
-                    VrInsightEquipment = EVrInsightEquipment.combo2;
-                    InitDisplays("    ");
+                    InitPhase = true;
+                }
+                else if (InitPhase)
+                {
+
+                    if (serialData.StartsWith("CMDMCP2B"))
+                    {
+                        VrInsightEquipment = EVrInsightEquipment.combo2;
+                        InitDisplays("    ");
+
+                    }
+                    else if (serialData.StartsWith("CMDFMER"))
+                    {
+                        VrInsightEquipment = EVrInsightEquipment.combo1;
+                    }
+                    else if (serialData.StartsWith("APLMAST"))
+                    {
+
+                        InitDisplays("    ");
+                    }
+                }
+           
 
                 }
-
-                if (serialData.StartsWith("CMDFMER"))
-                {
-                    VrInsightEquipment = EVrInsightEquipment.combo1;
-                    InitDisplays("    ");
-                }
-
-                Log(ELogger.serial_in, "<------------------------- " +serialData);
-            }
 
             catch (Exception ex)
             {
@@ -302,32 +316,47 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
 
         void InitDisplays(string pattern)
         {
-            Log(ELogger.info, "InitDisplays: pattern [" + pattern +"]");
+            InitPhase = false;
+
+            Log(ELogger.info, "InitDisplays: pattern [" + pattern + "]");
 
             switch (VrInsightEquipment)
             {
                 case EVrInsightEquipment.combo1:
-                    SerialPort.Write("DSP0" + pattern); Delay();
-                    SerialPort.Write("DSP1" + pattern); Delay();
+                    WriteToSerial("DSP0" + pattern); Delay();
+                    WriteToSerial("DSP1" + pattern); Delay();
                     break;
 
                 case EVrInsightEquipment.combo2:
-                    SerialPort.Write("DSP0" + pattern); Delay();
-                    SerialPort.Write("DSP1" + pattern); Delay();
-                    SerialPort.Write("DSP2" + pattern); Delay();
-                    SerialPort.Write("DSP3" + pattern); Delay();
-                    SerialPort.Write("DSP4" + pattern); Delay();
-                    SerialPort.Write("DSP5" + pattern); Delay();
-                    SerialPort.Write("DSP6" + pattern); Delay();
-                    SerialPort.Write("DSP7" + pattern); Delay();
-                    SerialPort.Write("DSP8" + pattern); Delay();
-                    SerialPort.Write("DSP9" + pattern); Delay();
-                    SerialPort.Write("DSPA" + pattern); Delay();
-                    SerialPort.Write("DSPB" + pattern); Delay();
-                    SerialPort.Write("DSPC" + pattern); Delay();
-                    SerialPort.Write("DSPD" + pattern); Delay();
-                    SerialPort.Write("DSPE" + pattern); Delay();
-                    SerialPort.Write("DSPF" + pattern); Delay();
+
+                    /* enjxp
+                    * The first line (upper line) goes from DSP0 to DSP7
+                    * The second line (lower line) goes from DSP8 to DSPF
+                    */
+
+                    WriteToSerial("DSP0" + pattern); Delay();
+                    WriteToSerial("DSP8" + pattern); Delay();
+
+                    WriteToSerial("DSP1" + pattern); Delay();
+                    WriteToSerial("DSP9" + pattern); Delay();
+
+                    WriteToSerial("DSP2" + pattern); Delay();
+                    WriteToSerial("DSPA" + pattern); Delay();
+
+                    WriteToSerial("DSP3" + pattern); Delay();
+                    WriteToSerial("DSPB" + pattern); Delay();
+
+                    WriteToSerial("DSP4" + pattern); Delay();
+                    WriteToSerial("DSPC" + pattern); Delay();
+
+                    WriteToSerial("DSP5" + pattern); Delay();
+                    WriteToSerial("DSPD" + pattern); Delay();
+
+                    WriteToSerial("DSP6" + pattern); Delay();
+                    WriteToSerial("DSPE" + pattern); Delay();
+
+                    WriteToSerial("DSP7" + pattern); Delay();
+                    WriteToSerial("DSPF" + pattern); Delay();
                     break;
 
                 default:
@@ -343,27 +372,41 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
             switch (VrInsightEquipment)
             {
                 case EVrInsightEquipment.combo1:
-                    SerialPort.Write("DSP0" + "0000"); Delay();
-                    SerialPort.Write("DSP1" + "0001"); Delay();
+                    WriteToSerial("DSP0" + "0000"); Delay();
+                    WriteToSerial("DSP1" + "0001"); Delay();
                     break;
 
                 case EVrInsightEquipment.combo2:
-                    SerialPort.Write("DSP0" + "0000"); Delay();
-                    SerialPort.Write("DSP1" + "0001"); Delay();
-                    SerialPort.Write("DSP2" + "0002"); Delay();
-                    SerialPort.Write("DSP3" + "0003"); Delay();
-                    SerialPort.Write("DSP4" + "0004"); Delay();
-                    SerialPort.Write("DSP5" + "0005"); Delay();
-                    SerialPort.Write("DSP6" + "0006"); Delay();
-                    SerialPort.Write("DSP7" + "0007"); Delay();
-                    SerialPort.Write("DSP8" + "0008"); Delay();
-                    SerialPort.Write("DSP9" + "0009"); Delay();
-                    SerialPort.Write("DSPA" + "0010"); Delay();
-                    SerialPort.Write("DSPB" + "0011"); Delay();
-                    SerialPort.Write("DSPC" + "0012"); Delay();
-                    SerialPort.Write("DSPD" + "0013"); Delay();
-                    SerialPort.Write("DSPE" + "0014"); Delay();
-                    SerialPort.Write("DSPF" + "0015"); Delay();
+
+                    /* enjxp
+                     * The first line (upper line) goes from DSP0 to DSP7
+                     * The second line (lower line) goes from DSP8 to DSPF
+                     */
+
+
+                    WriteToSerial("DSP0" + "0000"); Delay();
+                    WriteToSerial("DSP8" + "0008"); Delay();
+
+                    WriteToSerial("DSP1" + "0001"); Delay();
+                    WriteToSerial("DSP9" + "0009"); Delay();
+
+                    WriteToSerial("DSP2" + "0002"); Delay();
+                    WriteToSerial("DSPA" + "0010"); Delay();
+
+                    WriteToSerial("DSP3" + "0003"); Delay();
+                    WriteToSerial("DSPB" + "0011"); Delay();
+
+                    WriteToSerial("DSP4" + "0004"); Delay();
+                    WriteToSerial("DSPC" + "0012"); Delay();
+
+                    WriteToSerial("DSP5" + "0005"); Delay();
+                    WriteToSerial("DSPD" + "0013"); Delay();
+
+                    WriteToSerial("DSP6" + "0006"); Delay();
+                    WriteToSerial("DSPE" + "0014"); Delay();
+
+                    WriteToSerial("DSP7" + "0007"); Delay();
+                    WriteToSerial("DSPF" + "0015"); Delay();
                     break;
 
                 default:
@@ -386,20 +429,20 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
         private void darkButtonDisconnect_Click(object sender, EventArgs e)
         {
 
-            if(SerialPort != null) { SerialPort.Close();  }
+            if (SerialPort != null) { SerialPort.Close(); }
 
             VrInsightEquipment = EVrInsightEquipment.unknown;
             darkTextBoxVrInsightEquipment.Text = "";
 
-            Log(ELogger.warn,  "COMM: selected " + commPort);
+            Log(ELogger.warn, "COMM: selected " + commPort);
 
             darkButtonConnectToSerial.Enabled = true;
             darkButtonDisconnect.Enabled = !darkButtonConnectToSerial.Enabled;
             darkComboBoxSerialPort.Enabled = darkButtonConnectToSerial.Enabled;
-            
+
         }
 
-      
+
 
         private void darkButton2_Click(object sender, EventArgs e)
         {
@@ -423,14 +466,14 @@ private void darkButtonConnectToSerial_Click(object sender, EventArgs e)
                 if ((myStream = saveFileDialog1.OpenFile()) != null)
                 {
 
-        
+
 
                     richTextBoxLog.SaveFile(myStream, RichTextBoxStreamType.PlainText);
                     myStream.Close();
                 }
             }
 
-           
+
         }
 
         private void darkButton1_Click(object sender, EventArgs e)
